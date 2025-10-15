@@ -24,7 +24,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./workspace:/app/workspace
       - ./data:/app/data
-      - ./examples:/app/service_templates
     networks:
       - plataforma-net
     labels:

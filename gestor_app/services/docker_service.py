@@ -127,8 +127,8 @@ if __name__ == "__main__":
         shutil.copy(os.path.join(template_dir, "Dockerfile"), service_path)
         shutil.copy(os.path.join(template_dir, "requirements.txt"), service_path)
         image, _ = client.images.build(path=service_path, tag=f"{service_name}:latest", rm=True)
-        traefik_labels = {"traefik.enable": "true",f"traefik.http.routers.{service_name}.rule": f"Host(`localhost`) && PathPrefix(`/{service_name}`)",f"traefik.http.middlewares.{service_name}-stripprefix.stripprefix.prefixes": f"/{service_name}",f"traefik.http.routers.{service_name}.middlewares": f"{service_name}-stripprefix",f"traefik.http.services.{service_name}.loadbalancer.server.port": "5000","traefik.docker.network": "Proyecto-Docker-Microservicios_plataforma-net"}
-        container = client.containers.run(image, detach=True,name=service_name, labels=traefik_labels, network="Proyecto-Docker-Microservicios_plataforma-net")
+        traefik_labels = {"traefik.enable": "true",f"traefik.http.routers.{service_name}.rule": f"Host(`localhost`) && PathPrefix(`/{service_name}`)",f"traefik.http.middlewares.{service_name}-stripprefix.stripprefix.prefixes": f"/{service_name}",f"traefik.http.routers.{service_name}.middlewares": f"{service_name}-stripprefix",f"traefik.http.services.{service_name}.loadbalancer.server.port": "5000","traefik.docker.network": "proyecto-docker-microservicios_plataforma-net"}
+        container = client.containers.run(image, detach=True,name=service_name, labels=traefik_labels, network="proyecto-docker-microservicios_plataforma-net")
         new_service = {"id": service_name, "name": service_name, "language": language, "code": user_code,"isRoble": is_roble,"containerId": container.short_id, "port": 8000, "status": "running","endpoint": f"http://localhost:8000/{service_name}", "createdAt": datetime.now().isoformat()}
         _microservices_db.append(new_service)
         _save_db()
