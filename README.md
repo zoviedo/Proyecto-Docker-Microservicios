@@ -65,7 +65,6 @@ Antes de ejecutar la plataforma, asegúrate de tener instaladas las siguientes h
 - **Navegador web moderno** (Chrome, Edge, Firefox) para acceder al dashboard.
 > [!TIP]
 > Se recomienda usar un entorno virtual de Python (venv) para instalar Flask y el SDK de Docker y evitar conflictos con otras versiones del sistema.
-¡Perfecto! Aquí tienes la sección de **Instalación y Configuración** para tu README, con emojis y bullets, lista para GitHub:
 
 ## 💾 Instalación y Configuración
 Sigue estos pasos para desplegar la plataforma completa en tu máquina:
