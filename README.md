@@ -70,8 +70,8 @@ Antes de ejecutar la plataforma, asegúrate de tener instaladas las siguientes h
 Sigue estos pasos para desplegar la plataforma completa en tu máquina:
 ### 1️⃣ Clonar el repositorio
 ```bash
-git clone https://github.com/zoviedo/Proyecto-Docker-Microservicios.git
-cd Proyecto-Docker-Microservicios
+git clone https://github.com/zoviedo/proyecto-docker-microservicios.git
+cd proyecto-docker-microservicios
 ````
 
 ### 2️⃣ Construir y levantar los servicios con Docker Compose
