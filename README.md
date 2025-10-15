@@ -211,8 +211,8 @@ def leer_registros(client, payload):
 A continuación se muestra un video que ilustra el funcionamiento de la plataforma:
 
 <p align="center">
-  <a href="https://www.youtube.com/watch?v=TU_VIDEO_DEMO" target="_blank">
-    <img width="800" alt="Demo Plataforma" src="https://img.youtube.com/vi/TU_VIDEO_DEMO/0.jpg" />
+  <a href="https://www.youtube.com/watch?v=274usIr2gas" target="_blank">
+    <img width="800" alt="Demo Plataforma" src="https://img.youtube.com/vi/274usIr2gas/0.jpg" />
   </a>
 </p>
 
