@@ -15,7 +15,7 @@
 
 Plataforma web completa para crear, desplegar, ejecutar y gestionar microservicios en contenedores Docker, con integración a Roble.
 
-[Características](#-características) • [Arquitectura](#%EF%B8%8F-arquitectura) • [Tecnologías](#%EF%B8%8F-arquitectura) • [Requisitos Previos](#-requisitos-previos) • [Instalación y Configuración](#-instalación-y-configuración) • [Uso](#-uso) • [Ejemplos](#-ejemplos) • [Demostración](#-demostración) • [Licencia](#-licencia)
+[Características](#-características) • [Arquitectura](#%EF%B8%8F-arquitectura) • [Tecnologías](#%EF%B8%8F-tecnologías) • [Requisitos Previos](#-requisitos-previos) • [Instalación y Configuración](#-instalación-y-configuración) • [Uso](#-uso) • [Ejemplos](#-ejemplos) • [Demostración](#-demostración) • [Licencia](#-licencia)
 
 
 </div>
@@ -38,6 +38,62 @@ Plataforma web completa para crear, desplegar, ejecutar y gestionar microservici
 - **Interfaz Responsiva y Moderna:** Construida con Next.js y Shadcn/ui, con soporte para control de estado de microservicios y edición en tiempo real.
 
 ## 🏗️ Arquitectura
+La plataforma está diseñada con una **arquitectura modular y basada en contenedores**, que permite crear, desplegar y gestionar microservicios desde una interfaz web.  
+El sistema se compone de tres niveles principales: **Frontend (Next.js)**, **Backend Gestor (Flask + Docker SDK)** y **Proxy Inverso (Traefik)**.
+
+### Estructura general del proyecto
+
+```
+📦 Proyecto-Docker-Microservicios
+├── app/                        # Carpeta principal de Next.js (rutas, layout, páginas)
+│   ├── layout.tsx
+│   └── page.tsx
+├── components/                 # Componentes UI reutilizables (editor, panel, listas, etc.)
+│   ├── code-editor.tsx
+│   ├── microservices-list.tsx
+│   ├── test-panel.tsx
+│   └── theme-provider.tsx
+├── data/                       # Datos y configuraciones persistentes
+│   └── db.json
+├── gestor_app/                 # Backend principal (Flask)
+│   ├── python_flask_template/  # Plantilla base de microservicios
+│   ├── services/               # Módulos internos (Docker SDK, gestión, etc.)
+│   ├── Dockerfile              # Imagen del backend
+│   └── requirements.txt
+├── hooks/                      # Custom Hooks (React)
+│   └── use-toast.ts
+├── lib/                        # Utilidades generales
+│   └── utils.ts
+├── workspace/                  # Carpeta donde se almacenan temporalmente los microservicios generados
+├── docker-compose.yml          # Orquestación general (frontend, backend, proxy)
+├── Dockerfile.frontend         # Imagen del frontend Next.js
+├── next-env.d.ts, next.config.mjs, tsconfig.json, etc.
+└── README.md
+```
+
+### Descripción de los servicios
+
+| Servicio | Rol | Puerto | Tecnologías principales | Descripción |
+|-----------|------|---------|--------------------------|--------------|
+| **frontend** | Interfaz web de usuario | `3000` (expuesto en `8000` vía Traefik) | Next.js, TypeScript, Tailwind, shadcn/ui | Permite crear, editar, probar y desplegar microservicios directamente desde el navegador. |
+| **gestor-app** | Backend gestor de microservicios | `8080` | Flask, Docker SDK para Python | Se encarga de crear, construir, desplegar y gestionar contenedores Docker desde plantillas. También maneja el workspace, datos y configuraciones persistentes. |
+| **reverse-proxy** | Proxy inverso y enrutador | `80` (expuesto en `8000`) | Traefik v2.9 | Dirige las solicitudes HTTP entre frontend, backend y los microservicios activos. Permite balanceo y aislamiento de red. |
+
+### Comunicación entre servicios
+
+- Todos los servicios están conectados dentro de la red `plataforma-net` (driver `bridge`).
+- El **frontend** se comunica con el **gestor-app** a través del endpoint `http://localhost:8000/api`.
+- **Traefik** enruta las peticiones:
+  - `Host(localhost)` → Frontend
+  - `Host(localhost) && PathPrefix(/api)` → Gestor Flask
+
+### Flujo general
+
+1. El usuario crea un microservicio desde el **editor web (Next.js)**.  
+2. El **backend Flask (gestor-app)** recibe el código, genera el contenedor y lo despliega usando **Docker SDK**.  
+3. El **proxy Traefik** detecta automáticamente el nuevo contenedor y lo publica bajo una ruta o puerto asignado.  
+4. El usuario puede **probar el microservicio**, ver logs y gestionarlo desde el panel.
+
 
 ## 🛠️ Tecnologías
 - **Python:** Lenguaje principal para el backend y la creación de microservicios.
@@ -70,8 +126,8 @@ Antes de ejecutar la plataforma, asegúrate de tener instaladas las siguientes h
 Sigue estos pasos para desplegar la plataforma completa en tu máquina:
 ### 1️⃣ Clonar el repositorio
 ```bash
-git clone https://github.com/zoviedo/proyecto-docker-microservicios.git
-cd proyecto-docker-microservicios
+git clone https://github.com/zoviedo/Proyecto-Docker-Microservicios.git
+cd Proyecto-Docker-Microservicios
 ````
 
 ### 2️⃣ Construir y levantar los servicios con Docker Compose
